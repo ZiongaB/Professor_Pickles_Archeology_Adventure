@@ -35,3 +35,10 @@ void Lion::setDirection(int dir)
         direction = 0;
     }
 }
+
+void Lion::lionReset(int current)
+{
+    speed = 400;
+    x = 0;
+    y = 200;
+}

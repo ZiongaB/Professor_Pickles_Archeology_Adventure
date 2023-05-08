@@ -13,4 +13,5 @@ class Lion{
         void setSprite();
         void lowerSpeed();
         void setDirection(int dir);
+        void lionReset(int current);
 };

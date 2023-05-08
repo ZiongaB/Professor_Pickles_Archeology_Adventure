@@ -1,6 +1,6 @@
 #include "Mummy.h"
 
-Mummy::Mummy( float xpos, float ypos,float enemSpeed, int enemDamage, int enemHealth, sf::Sprite sprite, bool direction, int fire)
+Mummy::Mummy( float xpos, float ypos,float enemSpeed, int enemDamage, int enemHealth, sf::Sprite sprite, bool direction)
 {
     x=xpos;
     y=ypos;
@@ -9,7 +9,7 @@ Mummy::Mummy( float xpos, float ypos,float enemSpeed, int enemDamage, int enemHe
     enemSprite=sprite;
     direction=direction; 
     health = enemHealth;
-    fireTime = fire;
+
 }
 
 void Mummy::setSprite()
@@ -22,7 +22,8 @@ void Mummy::setDirection()
     direction = !direction;
 }
 
-void Mummy::increaseTime()
+
+void Mummy::loseHealth()
 {
-    fireTime++;
+    health--;
 }

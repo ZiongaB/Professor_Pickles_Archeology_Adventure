@@ -5,7 +5,17 @@ Item::Item(float xpos, float ypos, sf::Sprite sprite, std::string name)
 {
     x=xpos;
     y=ypos;
-    sprite=sprite;
-    name =name;
+    itemSprite=sprite;
+    itemValue =name;
+}
+
+std::string Item::AddItem()
+{
+    return itemValue;
+}
+
+void Item::setSprite()
+{
+    itemSprite.setPosition(x, y);
 }
 

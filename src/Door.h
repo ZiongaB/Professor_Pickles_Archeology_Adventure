@@ -6,6 +6,10 @@ class Door{
     private:
     public:
         float x, y;
-        sf::Sprite sprite;
-        Door( float xpos, float ypos, sf::Sprite sprite);
+        int open;
+        sf::Sprite doorSprite;
+        Door( float xpos, float ypos, sf::Sprite sprite, int destination);
+        int ChangeLevel();
+        void setSprite();
+
 };

@@ -10,10 +10,9 @@ class Mummy{
         sf::Sprite enemSprite;
         bool direction;
         int health;
-        int fireTime;
 
-        Mummy( float xpos, float ypos,float enemSpeed, int enemDamage, int enemHealth, sf::Sprite sprite, bool direction, int fire);
+        Mummy( float xpos, float ypos,float enemSpeed, int enemDamage, int enemHealth, sf::Sprite sprite, bool direction);
         void setSprite();
         void setDirection();
-        void increaseTime();
+        void loseHealth();
 };
