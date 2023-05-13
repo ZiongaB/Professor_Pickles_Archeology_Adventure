@@ -88,7 +88,7 @@ int main() {
     background.loadFromFile("./assets/backgrounds/sand.jpg");
     sf::Sprite back(background);
     back.setScale(1.f,1.f);
-    background2.loadFromFile("./assets/backgrounds/floor.jpg");
+    background2.loadFromFile("./assets/backgrounds/wall.jpg");
     sf::Sprite back2(background2);
     back2.setScale(1.f,1.f);
 
@@ -126,21 +126,31 @@ int main() {
     trea3.setScale (0.35f,0.35f);
 
     //LOAD ENDING AND UI TEXTURES
-    title.loadFromFile("./assets/backgrounds/PStart.png");
+    title.loadFromFile("./assets/backgrounds/Update.png");
     sf::Sprite titleStart(title);
     titleStart.setScale(0.33f,0.5f);
+    titleStart.setPosition(0,-100);
     gemEnd.loadFromFile("./assets/backgrounds/Gem.png");
     sf::Sprite gemScreen(gemEnd);
     gemScreen.setScale(0.33f,0.5f);
+    gemScreen.setPosition(0,-100);
     chestEnd.loadFromFile("./assets/backgrounds/Chest.png");
     sf::Sprite chestScreen(chestEnd);
     chestScreen.setScale(0.33f,0.5f);
+    chestScreen.setPosition(0,-100);
     bookEnd.loadFromFile("./assets/backgrounds/Tome.png");
     sf::Sprite bookScreen(bookEnd);
     bookScreen.setScale(0.33f,0.5f);
+    bookScreen.setPosition(0,-100);
     deadEnd.loadFromFile("./assets/backgrounds/Dead.png");
     sf::Sprite dead(deadEnd);
     dead.setScale(0.33f,0.5f);
+    dead.setPosition(0,-100);
+
+    pause.loadFromFile("./assets/sprites/Pause.png");
+    sf::Sprite pauseUI(pause);
+    pauseUI.setScale(0.45f,0.4f);
+    pauseUI.setPosition(200,300);
     
     //MUSIC
     sf::Music music;
@@ -202,19 +212,19 @@ int main() {
     }
 
     //CREATE CHARACTERS
-    Player hero(100,700,150,3,play);
-    Lion lion(10, 100, 500, 5, enem1 , 0);
-    Mummy mummy(990, 100, 200, 1, 4,enem2, 1);
+    Player hero(50,750,150,3,play);
+    Lion lion(10, 250, 750, 5, enem1 , 0);
+    Mummy mummy(990, 150, 200, 1, 4,enem2, 1);
 
     //CREATE ITEMS
-    Item templeKey(400, 50, keySprite, "Temple Key" );
+    Item templeKey(400, 75, keySprite, "Temple Key" );
     Item emerald(100, 400, trea1, "treasure1" );
     Item book(400, 650, trea2, "treasure2" );
     Item chest(800, 395, trea3, "treasure3" );
 
     //CREATE DOORS
-    Door templeDoor(800,650,doorSprite,2 );
-    Door treasureDoor(500,50,doorSprite,3 );
+    Door templeDoor(500,650,doorSprite,2 );
+    Door treasureDoor(500,100,doorSprite,3 );
 
     //PLAYER BULLETS
     Bullet b1;
@@ -228,23 +238,22 @@ int main() {
 
 
     //VISIBLE UI TEXT
+    sf::Text prompt;
+    prompt.setFont(scoreFont);
+    prompt.setCharacterSize(30);
+    prompt.setPosition(0, 0);
+    prompt.setFillColor(sf::Color::White);
     sf::Text uiText;
     uiText.setFont(scoreFont);
     uiText.setCharacterSize(20);
-    uiText.setPosition(0, 0);
+    uiText.setPosition(0, 90);
     uiText.setFillColor(sf::Color::White);
     sf::Text held;
     held.setFont(scoreFont);
     held.setCharacterSize(20);
-    held.setPosition(790,0 );
-    held.setFillColor(sf::Color::White);
-    sf::Text prompt;
-    prompt.setFont(scoreFont);
-    prompt.setCharacterSize(30);
-    prompt.setPosition(200, 600);
-    prompt.setFillColor(sf::Color::White);
-
-
+    held.setPosition(0,190);
+    held.setFillColor(sf::Color::Black);
+    
     //SET UP RANDOM
     srand(time(NULL));
 
@@ -378,6 +387,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) )
                 {
                     aimDir = playerUp -playerPoint;
+                    display="Your bullets cannot kill lions, only slow them.";
+                    display2="They can damage other enemies though!!";
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -393,6 +404,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) )
                 {
                     aimDir = playerDown - playerPoint;
+                    display="Your bullets cannot kill lions, only slow them.";
+                    display2="They can damage other enemies though!!";
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -408,6 +421,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) )
                 {
                     aimDir = playerLeft - playerPoint;
+                    display="Your bullets cannot kill lions, only slow them.";
+                    display2="They can damage other enemies though!!";
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -423,6 +438,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) )
                 {
                     aimDir = playerRight - playerPoint;
+                    display="Your bullets cannot kill lions, only slow them.";
+                    display2="They can damage other enemies though!!";
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -473,7 +490,7 @@ int main() {
                     player_bullets.erase(player_bullets.begin()+ i);
                 }
                 //IF LION IS HIT BY BULLET
-                else if(player_bullets[i].shape.getGlobalBounds().intersects(lion.enemSprite.getGlobalBounds()))
+                if(player_bullets[i].shape.getGlobalBounds().intersects(lion.enemSprite.getGlobalBounds()))
                 {
                     //LOWER LION SPEED AND ERASE BULLET
                     lion.lowerSpeed();
@@ -481,7 +498,7 @@ int main() {
                     player_bullets.erase(player_bullets.begin()+ i);
                 }
                 //IF MUMMY IS HIT BY BULLET
-                else if(player_bullets[i].shape.getGlobalBounds().intersects(mummy.enemSprite.getGlobalBounds()))
+                if(player_bullets[i].shape.getGlobalBounds().intersects(mummy.enemSprite.getGlobalBounds()))
                 {
                     //LOWER MUMMY HEALTH AND ERASE BULLET
                     mummy.loseHealth();
@@ -593,6 +610,7 @@ int main() {
         emerald.setSprite();
         book.setSprite();
         chest.setSprite();
+        
 
 
         //IF PLAYER IS TOUCHING LION
@@ -621,19 +639,38 @@ int main() {
             //IF YOU HAVE KEY
             if(inventory == templeKey.itemValue)
             {
+                //CHANGE PROMPT
+                prompt.setFillColor(sf::Color::Green);
+                uiText.setFillColor(sf::Color::Green);
+                held.setFillColor(sf::Color::Green);
+                display="Get to the treasure room door by getting past the defense!";
+                display2="Unlike the lion, the mummy can be defeated with your shooting!!";
+
                 //CHANGE LEVEL AND SPAWN MUMMY
                 level = 2;
                 mummyAlive = true;
                 int opposite = lion.x;
                 lion.lionReset((1000 - opposite));
+
+                templeDoor.doorSprite.setOrigin(3000,3000);
+            }
+            else{
+                display ="You need the key to open this door!!!";
+                display2="Try grabbing the key behind the lion!!!";
             }
         }
 
-        //ITEM COLLISION FOR ENTERING TEMPLE
+        //ITEM COLLISION FOR ENTERING TREASURE ROOM
         if (hero.playerSprite.getGlobalBounds().intersects(treasureDoor.doorSprite.getGlobalBounds())) 
         {
             if( level ==2)
             {
+                display ="You've made it to the darkened treasure room!!!";
+                display2="You can only carry one treasure, so choose wisely!";
+                prompt.setFillColor(sf::Color::White);
+                uiText.setFillColor(sf::Color::White);
+                held.setFillColor(sf::Color::White);
+
                 level = 3;
                 lion.x = 2000;
                 lion.y = 2000;
@@ -648,8 +685,8 @@ int main() {
             {
                 //GO TO END SCREEN WITH SCORE
                 score = score+400;
-                prompt.setPosition(475,570);
-                //prompt.setFillColor(sf::Color::White);
+                prompt.setPosition(450,500);
+                prompt.setFillColor(sf::Color::White);
                 prompt.setString(std::to_string(singleScore));
                 level = 4;
             }
@@ -658,8 +695,8 @@ int main() {
             {
                 //GO TO END SCREEN WITH SCORE
                 score = score+100;
-                prompt.setPosition(475,570);
-                //prompt.setFillColor(sf::Color::White);
+                prompt.setPosition(450,500);
+                prompt.setFillColor(sf::Color::White);
                 prompt.setString(std::to_string(singleScore));
                 level = 5;
             }
@@ -668,8 +705,8 @@ int main() {
             {
                 //GO TO END SCREEN WITH SCORE
                 score =score+700;
-                prompt.setPosition(475,570);
-                //prompt.setFillColor(sf::Color::White);
+                prompt.setPosition(450,500);
+                prompt.setFillColor(sf::Color::White);
                 prompt.setString(std::to_string(singleScore));
                 level = 6;
             }
@@ -694,8 +731,8 @@ int main() {
         if (hero.health <= 0) 
         {
             //TAKE TO DEATH SCREEN AND DISPLAY SCORE
-            prompt.setPosition(475,570);
-            //prompt.setFillColor(sf::Color::White);
+            prompt.setPosition(450,500);
+            prompt.setFillColor(sf::Color::White);
             prompt.setString(std::to_string(singleScore));
             level =7;
         }
@@ -780,11 +817,7 @@ int main() {
             window.draw(prompt);
         } 
 
-        //IF PAUSED DRAW PAUSE UI
-        if (paused == true)
-        {
-            //window.draw();
-        }
+        
 
         //DRAW UI DURING MAIN PLAYABLE LEVELS
         if((level>0)&&(level<4))
@@ -800,6 +833,12 @@ int main() {
             window.draw(prompt);
             held.setString("Current held item: \n"+inventory);
             window.draw(held);
+
+            //IF PAUSED DRAW PAUSE UI
+            if (paused == true)
+            {
+                window.draw(pauseUI);
+            }
         }
 
         //DRAW BULLETS AND FIREBALLS 
