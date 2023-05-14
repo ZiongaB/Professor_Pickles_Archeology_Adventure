@@ -19,7 +19,7 @@ void Lion::lowerSpeed()
 {
     if(speed > 100)
     {
-        speed = speed-50;
+        speed = speed-75;
     }
 }
 
@@ -38,7 +38,7 @@ void Lion::setDirection(int dir)
 
 void Lion::lionReset(int current)
 {
-    speed = 400;
+    speed = 500;
     x = 0;
-    y = 200;
+    y = 350;
 }

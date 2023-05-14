@@ -200,8 +200,8 @@ int main() {
     sf::Vector2f mummyAim;
 
     //STRINGS TO DISPLAY ONSCREEN
-    std::string display = "Get into the temple door!";
-    std::string display2 = "Move with WASD and shoot with arrow keys!";
+    std::string display = "You need the key for the door, but the lion is blocking the way!";
+    std::string display2 = "       Get past it or slow it down by shooting with arrow keys!";
     std::string inventory;
 
     //LOAD FONT
@@ -213,18 +213,18 @@ int main() {
 
     //CREATE CHARACTERS
     Player hero(50,750,150,3,play);
-    Lion lion(10, 250, 750, 5, enem1 , 0);
-    Mummy mummy(990, 150, 200, 1, 4,enem2, 1);
+    Lion lion(10, 250, 500, 5, enem1 , 0);
+    Mummy mummy(990, 170, 300, 1, 4,enem2, 1);
 
     //CREATE ITEMS
-    Item templeKey(400, 75, keySprite, "Temple Key" );
+    Item templeKey(410, 75, keySprite, "Temple Key" );
     Item emerald(100, 400, trea1, "treasure1" );
     Item book(400, 650, trea2, "treasure2" );
     Item chest(800, 395, trea3, "treasure3" );
 
     //CREATE DOORS
-    Door templeDoor(500,650,doorSprite,2 );
-    Door treasureDoor(500,100,doorSprite,3 );
+    Door templeDoor(450,650,doorSprite,2 );
+    Door treasureDoor(450,30,doorSprite,3 );
 
     //PLAYER BULLETS
     Bullet b1;
@@ -241,17 +241,17 @@ int main() {
     sf::Text prompt;
     prompt.setFont(scoreFont);
     prompt.setCharacterSize(30);
-    prompt.setPosition(0, 0);
+    prompt.setPosition(50, 400);
     prompt.setFillColor(sf::Color::White);
     sf::Text uiText;
     uiText.setFont(scoreFont);
-    uiText.setCharacterSize(20);
-    uiText.setPosition(0, 90);
+    uiText.setCharacterSize(25);
+    uiText.setPosition(0, 0);
     uiText.setFillColor(sf::Color::White);
     sf::Text held;
     held.setFont(scoreFont);
-    held.setCharacterSize(20);
-    held.setPosition(0,190);
+    held.setCharacterSize(25);
+    held.setPosition(0,90);
     held.setFillColor(sf::Color::Black);
     
     //SET UP RANDOM
@@ -387,8 +387,19 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) )
                 {
                     aimDir = playerUp -playerPoint;
-                    display="Your bullets cannot kill lions, only slow them.";
-                    display2="They can damage other enemies though!!";
+
+                    if (level == 1)
+                    {
+                        prompt.setPosition(150, 400);
+                        display="                 Slow down the lion by shooting it!";
+                        display2="The lion can't die but you can get past it if it's slow!";
+                    }
+                    if (level == 2)
+                    {
+                        prompt.setPosition(200, 400);
+                        display="A few of your shots can kill the mummy!!";
+                        display2="      Still be careful about the lion!!";
+                    }
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -404,8 +415,18 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) )
                 {
                     aimDir = playerDown - playerPoint;
-                    display="Your bullets cannot kill lions, only slow them.";
-                    display2="They can damage other enemies though!!";
+                    if (level == 1)
+                    {
+                        prompt.setPosition(150, 400);
+                        display="                 Slow down the lion by shooting it!";
+                        display2="The lion can't die but you can get past it if it's slow!";
+                    }
+                    if (level == 2)
+                    {
+                        prompt.setPosition(200, 400);
+                        display="A few of your shots can kill the mummy!!";
+                        display2="      Still be careful about the lion!!";
+                    }
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -421,8 +442,18 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) )
                 {
                     aimDir = playerLeft - playerPoint;
-                    display="Your bullets cannot kill lions, only slow them.";
-                    display2="They can damage other enemies though!!";
+                    if (level == 1)
+                    {
+                        prompt.setPosition(150, 400);
+                        display="                 Slow down the lion by shooting it!";
+                        display2="The lion can't die but you can get past it if it's slow!";
+                    }
+                    if (level == 2)
+                    {
+                        prompt.setPosition(200, 400);
+                        display="A few of your shots can kill the mummy!!";
+                        display2="      Still be careful about the lion!!";
+                    }
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -438,8 +469,18 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) )
                 {
                     aimDir = playerRight - playerPoint;
-                    display="Your bullets cannot kill lions, only slow them.";
-                    display2="They can damage other enemies though!!";
+                    if (level == 1)
+                    {
+                        prompt.setPosition(150, 400);
+                        display="                 Slow down the lion by shooting it!";
+                        display2="The lion can't die but you can get past it if it's slow!";
+                    }
+                    if (level == 2)
+                    {
+                        prompt.setPosition(200, 400);
+                        display="A few of your shots can kill the mummy!!";
+                        display2="      Still be careful about the lion!!";
+                    }
 
                     //AND THEY CAN SHOOT
                     if(shootTime >= 0.3)
@@ -643,19 +684,20 @@ int main() {
                 prompt.setFillColor(sf::Color::Green);
                 uiText.setFillColor(sf::Color::Green);
                 held.setFillColor(sf::Color::Green);
-                display="Get to the treasure room door by getting past the defense!";
-                display2="Unlike the lion, the mummy can be defeated with your shooting!!";
+                prompt.setPosition(250, 400);
+                display=" Get past the enemies to the door!";
+                display2="Beware of the mummy's fireballs!!";
 
                 //CHANGE LEVEL AND SPAWN MUMMY
-                level = 2;
                 mummyAlive = true;
                 int opposite = lion.x;
                 lion.lionReset((1000 - opposite));
-
                 templeDoor.doorSprite.setOrigin(3000,3000);
+                level = 2;
             }
             else{
-                display ="You need the key to open this door!!!";
+                prompt.setPosition(250, 400);
+                display ="  You need the key to open this door!!!";
                 display2="Try grabbing the key behind the lion!!!";
             }
         }
@@ -665,7 +707,8 @@ int main() {
         {
             if( level ==2)
             {
-                display ="You've made it to the darkened treasure room!!!";
+                prompt.setPosition(150, 300);
+                display ="    You've made it to the darkened treasure room!!!";
                 display2="You can only carry one treasure, so choose wisely!";
                 prompt.setFillColor(sf::Color::White);
                 uiText.setFillColor(sf::Color::White);
