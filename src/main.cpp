@@ -146,11 +146,12 @@ int main() {
     sf::Sprite dead(deadEnd);
     dead.setScale(0.33f,0.5f);
     dead.setPosition(0,-100);
-
     pause.loadFromFile("./assets/sprites/Pause.png");
     sf::Sprite pauseUI(pause);
     pauseUI.setScale(0.45f,0.4f);
     pauseUI.setPosition(200,300);
+
+    
     
     //MUSIC
     sf::Music music;
@@ -388,6 +389,7 @@ int main() {
                 {
                     aimDir = playerUp -playerPoint;
 
+                    //SHOW SHOOTING MESSAGE
                     if (level == 1)
                     {
                         prompt.setPosition(150, 400);
@@ -415,6 +417,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) )
                 {
                     aimDir = playerDown - playerPoint;
+
+                    //SHOW SHOOTING MESSAGE
                     if (level == 1)
                     {
                         prompt.setPosition(150, 400);
@@ -442,6 +446,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) )
                 {
                     aimDir = playerLeft - playerPoint;
+
+                    //SHOW SHOOTING MESSAGE
                     if (level == 1)
                     {
                         prompt.setPosition(150, 400);
@@ -469,6 +475,8 @@ int main() {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) )
                 {
                     aimDir = playerRight - playerPoint;
+
+                    //SHOW SHOOTING MESSAGE
                     if (level == 1)
                     {
                         prompt.setPosition(150, 400);
@@ -638,7 +646,6 @@ int main() {
                 }
             }
         }
-            
 
         //UPDATE SPRITE LOCATIONS
         hero.setSprite();
@@ -646,14 +653,11 @@ int main() {
         mummy.setSprite();
         templeKey.setSprite();
         templeDoor.setSprite();
-
         treasureDoor.setSprite();
         emerald.setSprite();
         book.setSprite();
         chest.setSprite();
         
-
-
         //IF PLAYER IS TOUCHING LION
         if (hero.playerSprite.getGlobalBounds().intersects(lion.enemSprite.getGlobalBounds())) 
         {
@@ -707,6 +711,7 @@ int main() {
         {
             if( level ==2)
             {
+                //CHANGE PROMPT
                 prompt.setPosition(150, 300);
                 display ="    You've made it to the darkened treasure room!!!";
                 display2="You can only carry one treasure, so choose wisely!";
@@ -714,9 +719,13 @@ int main() {
                 uiText.setFillColor(sf::Color::White);
                 held.setFillColor(sf::Color::White);
 
-                level = 3;
+                //DEACTIVATE ENEMIES
                 lion.x = 2000;
                 lion.y = 2000;
+                mummy.speed=0;
+                mummy.x == 2000;
+                mummy.y == 2000;
+                level = 3;
             }
         }
 
